@@ -1,96 +1,3 @@
-
-Claude가 응답을 완료했습니다
-
-모바일 환경에서 관리자 로그인 가능성을 검토했습니다
-모바일 환경에서 관리자 로그인 가능성을 검토했습니다
-네, 문제없이 가능해요! 핸드폰 브라우저(사파리, 크롬 등)로 접속하는 것도 컴퓨터랑 똑같이 작동해요 — 애초에 핸드폰에서 사진 찍어서 올리기 편하게 반응형으로 만들었거든요.
-핸드폰에서 관리자 로그인하는 방법
-사파리나 크롬 앱에서 주소창에 입력:
-   yumigo-recipe.vercel.app
-초대 코드 입력 화면이 뜰 텐데, 화면 아래쪽 "관리자이신가요? 로그인" 링크 탭
-관리자 비밀번호 입력 → 로그인
-로그인되면 우측 상단 🔔(입장 요청 관리), ⚙(비밀번호 변경) 아이콘도 똑같이 다 보여요
-팁: 자주 쓰실 것 같으면, 사파리에서 사이트 열어놓은 상태에서 공유 버튼 → "홈 화면에 추가" 하면 앱 아이콘처럼 홈 화면에 바로가기가 생겨서 매번 주소 입력 안 해도 돼요.
-참고로 지금 요청하신 Molly Baz 스타일 디자인 리뉴얼은 계속 작업 중이에요 — 조금만 기다려주시면 완성해서 보여드릴게요!
-IMG_5047.PNG
-핸드폰에서도 로그인 화면 잘 뜨고, 폼도 정상적으로 작동하고 있어요! (핸드폰 접속 자체는 문제없다는 게 확인됐네요 👍)
-지금은 "비밀번호가 올바르지 않아요"만 뜨는 상황이니, 아까 안내드린 대로 진행하시면 돼요.
-비밀번호 재설정 순서 (컴퓨터에서 진행)
-Vercel 대시보드 → yumigo-recipe 프로젝트 → Storage 탭
-upstash-kv-cyclamen-anchor 클릭
-"Open in Upstash" 클릭
-Upstash 콘솔에서 Data Browser 탭 찾기
-site-passcode 키 찾아서 삭제
-삭제 후 핸드폰이나 컴퓨터에서 사이트 새로고침하면 "레시피 상자 처음 만들기" 화면으로 돌아가고, 거기서 새 비밀번호를 정하시면 돼요.
-Upstash Data Browser 화면까지 가시면 캡처해서 보여주세요, 정확한 위치 짚어드릴게요. (Molly Baz 스타일 디자인도 백그라운드에서 계속 준비 중이에요!)
-컴퓨터로는 그렇게 되는데 핸드폰으로는 동일 비밀번호를 쳤을때 비밀번호가 올바르지 않다고 나와
-
-모바일 자동완성과 키보드 간섭을 진단했습니다
-모바일 자동완성과 키보드 간섭을 진단했습니다
-핸드폰에서만 안 되는 거면, 대부분 이 두 가지 중 하나예요.
-① 아이폰 자동완성이 예전 비밀번호를 끼워넣는 경우
-아이폰은 사이트별로 비밀번호를 기억해뒀다가 자동으로 채워주는데, 예전에 다른 비밀번호를 입력했던 게 저장되어 있으면 지금 새로 타이핑해도 자동완성이 덮어쓸 수 있어요.
-확인 방법
-비밀번호 입력칸을 길게 눌러서 **"전체 선택" → "삭제"**로 완전히 지워보세요
-자동완성 제안(키보드 위에 뜨는 노란/회색 바)이 뜨면 무시하고 직접 타이핑
-입력 후, 칸을 다시 길게 눌러 **"붙여넣기"**가 아니라 직접 손가락으로 하나씩 입력해보기
-② 자동 대문자화 / 자동수정 문제
-아이폰 키보드가 첫 글자를 자동으로 대문자로 바꾸거나, 특수문자를 다른 문자로 바꿔치기 하는 경우가 있어요 (예: ' 를 다른 따옴표로 변환).
-빠른 테스트
-비밀번호에 영어 대문자나 특수문자가 섞여있다면, 잠깐 숫자로만 이루어진 간단한 임시 비밀번호로 Upstash에서 재설정해보시고 그걸로 핸드폰에서 로그인해보세요. 그래도 안 되면 자동완성/자동수정 문제가 아니라 다른 원인이에요.
-이 두 가지로도 안 풀리면, 제가 코드에 "비밀번호 보기(👁)" 버튼을 추가해드릴게요 — 그럼 핸드폰에서 실제로 뭐가 입력되고 있는지 눈으로 바로 확인할 수 있어요. 필요하시면 말씀해주세요, 바로 추가해서 다시 배포 안내해드릴게요!
-아니면 혹시 핸드폰에서도 vercel 앱 깔아야하니
-
-Clarified Vercel 앱 설치 불필요성과 웹사이트 접근 방식
-Clarified Vercel 앱 설치 불필요성과 웹사이트 접근 방식
-아니요, 전혀 필요 없어요! Vercel 앱은 (있다 해도) 개발자가 프로젝트 관리하는 용도지, 사이트를 보는 사람은 그냥 일반 웹사이트처럼 브라우저로 들어가면 끝이에요.
-정리하면:
-yumigo-recipe.vercel.app 은 그냥 일반 인터넷 주소예요
-사파리, 크롬 등 아무 브라우저에서나 주소 치고 들어가면 끝
-앱 설치, 로그인, 계정 연동 이런 거 전혀 필요 없어요
-그러니 지금 로그인 안 되는 문제는 Vercel 앱과는 무관해요. 아까 말씀드린 자동완성/자동수정 문제일 가능성이 높아요.
-혹시 확인 차원에서, 비밀번호를 눈으로 볼 수 있게 만들어드릴까요? 지금 입력창이 점(●●●●)으로 가려져 있어서 핸드폰에서 뭐가 실제로 입력되고 있는지 확인이 안 되잖아요. "비밀번호 보기" 버튼을 추가해드리면, 핸드폰에서 직접 눈으로 보면서 정확히 뭐가 입력되는지 확인할 수 있어요.
-추가해드릴까요? (말씀하시면 바로 코드 수정해서 새 파일 드릴게요)
-비밀번호는 타입하는 순간 볼 수 있어서 틀리지 않았어!! 이건 보장할 수 있어 다른 곳에 원인이 있으니 잘 생각해봐
-
-네트워크 연결과 캐시 문제를 추적하고 오류 처리 개선을 계획했습니다
-네트워크 연결과 캐시 문제를 추적하고 오류 처리 개선을 계획했습니다
-좋아요, 확실하시다면 다른 원인을 봐야 해요. 실제로 유력한 원인이 하나 있어요.
-지금 코드의 숨은 함정
-지금 코드는 "저장소 연결 실패"와 "비밀번호가 다름" 두 경우를 똑같은 에러 메시지로 보여주고 있어요. 즉, 핸드폰에서 데이터 연결이 살짝 불안정해서 서버 요청 자체가 실패해도, 화면에는 그냥 "비밀번호가 올바르지 않아요"라고 떠요. 진짜 원인이 가려져 있는 거예요.
-컴퓨터는 보통 와이파이로 안정적인데, 핸드폰은 데이터/와이파이 전환 중이거나 신호가 약할 때 이 요청이 조용히 실패했을 가능성이 있어요.
-정확한 원인을 알아내는 코드로 고쳐드릴게요
-로그인 시도할 때 정말 비밀번호가 틀린 건지, 아니면 서버 연결 자체가 안 된 건지 구분해서 보여주도록 수정할게요. 이러면 진짜 원인이 화면에 그대로 뜨니까 바로 알 수 있어요.
-
-명령 2개 실행함, 2개 파일 수정됨
-명령 2개 실행함, 2개 파일 수정됨
-Now let's package this fix and get it back to you.
-
-명령 실행함, 파일 읽음
-명령 실행함, 파일 읽음
-진단용으로 고친 index.html 파일이에요. 이걸 GitHub에 올려서 다시 배포하면, 로그인 실패했을 때 진짜 이유가 화면에 뜰 거예요.
-적용 방법
-GitHub 저장소(yy64524hk8-hub/yumigo-recipe) → vercel-recipe-box 폴더 → index.html 클릭
-연필(✏️) 아이콘으로 편집 모드 진입
-기존 내용 전체 삭제하고, 방금 드린 파일 내용으로 교체 (또는 파일 삭제 후 새로 업로드)
-Commit changes
-Vercel에서 재배포 (Deployments → ⋯ → Redeploy)
-적용 후 핸드폰에서 다시 로그인 시도하면, 이제 이런 메시지 중 하나가 뜰 거예요:
-"비밀번호가 올바르지 않아요" → 진짜 비밀번호 문제 (오타 등)
-"서버 연결에 실패했어요 (오류 코드 ...)" → 서버는 응답했지만 뭔가 문제
-"네트워크 오류: ..." → 핸드폰에서 요청 자체가 서버까지 도달 못 함 (와이파이/데이터 문제, 방화벽, 콘텐츠 차단 앱 등)
-어떤 메시지가 뜨는지 캡처해서 보여주시면, 그거 보고 정확한 다음 단계를 알려드릴게요!
-
-Index
-코드 · HTML 
-
-
-
-
-
-Claude는 AI이며 실수할 수 있습니다. 응답을 다시 한번 확인해 주세요.
-
-Index · HTML
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -131,7 +38,7 @@ Index · HTML
   .mono{font-family:'IBM Plex Mono', 'Nanum Gothic', monospace;}
   .serif{font-family:'Fraunces', 'Nanum Gothic', serif;}
   .hidden{display:none !important;}
- 
+
   /* ---------- GATE ---------- */
   #gate-screen{
     min-height:100vh;
@@ -187,7 +94,7 @@ Index · HTML
   }
   @keyframes spin{ to{ transform:rotate(360deg); } }
   .waiting-name{font-weight:700; color:var(--ink);}
- 
+
   /* ---------- HEADER ---------- */
   #main-screen{max-width:960px; margin:0 auto; padding:22px 18px 100px;}
   .topbar{display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:18px; gap:12px;}
@@ -210,20 +117,20 @@ Index · HTML
     position:absolute; top:-2px; right:-2px; width:10px; height:10px; border-radius:50%;
     background:var(--plum); border:2px solid var(--paper);
   }
- 
+
   .search-row{margin-bottom:20px;}
   .search-row input{
     width:100%; padding:12px 16px; border-radius:10px; border:1.5px solid var(--line);
     background:var(--card); font-size:14px; outline:none;
   }
   .search-row input:focus{border-color:var(--olive);}
- 
+
   .empty-state{
     text-align:center; padding:60px 20px; color:var(--ink-soft);
   }
   .empty-state .serif{font-size:20px; color:var(--ink); margin-bottom:6px; display:block;}
   .empty-state p{font-size:13.5px; margin:0 0 18px;}
- 
+
   /* ---------- GRID / CARDS ---------- */
   .grid{
     display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:16px;
@@ -251,7 +158,7 @@ Index · HTML
     margin:0 0 6px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
   }
   .rcard-meta{display:flex; align-items:center; gap:5px; font-size:11px; color:var(--ink-soft); font-family:'IBM Plex Mono', 'Nanum Gothic', monospace;}
- 
+
   /* ---------- FAB ---------- */
   .fab{
     position:fixed; right:20px; bottom:24px; width:58px; height:58px; border-radius:50%;
@@ -260,7 +167,7 @@ Index · HTML
     transition:transform .15s;
   }
   .fab:active{transform:scale(0.92);}
- 
+
   /* ---------- OVERLAYS ---------- */
   .overlay{
     position:fixed; inset:0; background:rgba(14,59,44,0.55); z-index:100;
@@ -280,7 +187,7 @@ Index · HTML
   .sheet-header h2{font-family:'Fraunces', 'Nanum Gothic', serif; font-size:19px; margin:0;}
   .sheet-body{padding:18px;}
   .close-x{background:none; border:none; font-size:22px; color:var(--ink-soft); line-height:1; padding:4px 8px;}
- 
+
   /* ---------- DETAIL ---------- */
   .detail-photo-wrap{position:relative; border-radius:14px; overflow:hidden; margin-bottom:16px; box-shadow:var(--shadow);}
   .detail-photo{width:100%; aspect-ratio:4/3; object-fit:cover; display:block; background:var(--paper-2);}
@@ -330,7 +237,7 @@ Index · HTML
   }
   .btn.primary{background:var(--olive); color:#fff; border-color:var(--olive);}
   .btn.danger{color:var(--plum); border-color:var(--plum);}
- 
+
   /* ---------- FORM ---------- */
   .field{margin-bottom:16px;}
   .field label{display:block; font-size:12px; font-weight:600; color:var(--ink-soft); margin-bottom:6px; letter-spacing:0.02em;}
@@ -365,7 +272,7 @@ Index · HTML
     padding:10px 18px; border-radius:20px; font-size:13px; z-index:300; box-shadow:0 6px 16px rgba(0,0,0,0.25);
     opacity:0; transition:opacity .2s;
   }
- 
+
   /* ---------- ADMIN PANEL ---------- */
   .admin-section-title{
     font-family:'Fraunces', 'Nanum Gothic', serif; font-size:16px; font-weight:700; margin:22px 0 10px;
@@ -404,14 +311,14 @@ Index · HTML
 </style>
 </head>
 <body>
- 
+
 <div id="toast" class="toast"></div>
- 
+
 <!-- GATE -->
 <div id="gate-screen">
   <div class="gate-card">
     <div class="gate-tab">RECIPE BOX</div>
- 
+
     <!-- first-time admin setup -->
     <div id="panel-setup">
       <h1>레시피 상자 처음 만들기</h1>
@@ -421,7 +328,7 @@ Index · HTML
       <button class="gate-btn" id="setup-btn">관리자로 시작하기</button>
       <div class="gate-error" id="setup-error"></div>
     </div>
- 
+
     <!-- join request -->
     <div id="panel-request" class="hidden">
       <h1>입장 요청하기</h1>
@@ -434,7 +341,7 @@ Index · HTML
         <button class="gate-link-btn" id="link-to-admin">관리자이신가요? 로그인</button>
       </div>
     </div>
- 
+
     <!-- waiting for approval -->
     <div id="panel-waiting" class="hidden">
       <div class="waiting-wrap">
@@ -444,14 +351,14 @@ Index · HTML
       </div>
       <button class="gate-btn ghost" id="waiting-cancel-btn">요청 취소하기</button>
     </div>
- 
+
     <!-- denied -->
     <div id="panel-denied" class="hidden">
       <h1>요청이 거절됐어요</h1>
       <p>관리자가 이번 요청을 승인하지 않았어요. 관리자에게 직접 문의해보세요.</p>
       <button class="gate-btn" id="denied-retry-btn">다시 요청하기</button>
     </div>
- 
+
     <!-- invite code -->
     <div id="panel-invite" class="hidden">
       <h1>레시피 상자 열기</h1>
@@ -464,7 +371,7 @@ Index · HTML
         <button class="gate-link-btn" id="link-to-admin-from-invite">관리자이신가요? 로그인</button>
       </div>
     </div>
- 
+
     <!-- admin login -->
     <div id="panel-admin-login" class="hidden">
       <h1>관리자 로그인</h1>
@@ -478,7 +385,7 @@ Index · HTML
     </div>
   </div>
 </div>
- 
+
 <!-- MAIN -->
 <div id="main-screen" class="hidden">
   <div class="topbar">
@@ -501,7 +408,7 @@ Index · HTML
   </div>
   <button class="fab" id="fab-add" title="레시피 추가">+</button>
 </div>
- 
+
 <!-- DETAIL OVERLAY -->
 <div id="detail-overlay" class="overlay hidden">
   <div class="sheet">
@@ -512,7 +419,7 @@ Index · HTML
     <div class="sheet-body" id="detail-body"></div>
   </div>
 </div>
- 
+
 <!-- FORM OVERLAY -->
 <div id="form-overlay" class="overlay hidden">
   <div class="sheet">
@@ -559,7 +466,7 @@ Index · HTML
     </div>
   </div>
 </div>
- 
+
 <!-- ADMIN OVERLAY -->
 <div id="admin-overlay" class="overlay hidden">
   <div class="sheet">
@@ -570,10 +477,10 @@ Index · HTML
     <div class="sheet-body">
       <div class="admin-section-title">대기 중인 요청</div>
       <div id="pending-list"></div>
- 
+
       <div class="admin-section-title">최근 처리 내역</div>
       <div id="recent-list"></div>
- 
+
       <div class="admin-section-title">초대 코드로 직접 초대하기</div>
       <p class="admin-sub">코드를 만들어서 카톡 등으로 직접 보내면, 승인 없이 한 번 바로 입장할 수 있어요.</p>
       <div class="invite-row">
@@ -584,11 +491,11 @@ Index · HTML
     </div>
   </div>
 </div>
- 
+
 <script>
 (function(){
   "use strict";
- 
+
   // ---------- state ----------
   let unlocked = false;
   let isAdmin = false;
@@ -602,16 +509,16 @@ Index · HTML
   let currentRequestName = '';
   let pollTimer = null;
   let adminBadgeTimer = null;
- 
+
   const $ = (id) => document.getElementById(id);
- 
+
   function showToast(msg){
     const t = $('toast');
     t.textContent = msg;
     t.style.opacity = '1';
     setTimeout(()=>{ t.style.opacity='0'; }, 2400);
   }
- 
+
   // ---------- storage helpers (Vercel /api/kv, backed by a Redis database) ----------
   async function storageGet(key){
     try{
@@ -636,10 +543,15 @@ Index · HTML
       await fetch('/api/kv?key=' + encodeURIComponent(key), { method: 'DELETE' });
     }catch(e){}
   }
- 
+
   async function getJoinRequests(){
     const raw = await storageGet('join-requests', true);
-    return raw ? JSON.parse(raw) : [];
+    if(!raw) return [];
+    if(typeof raw === 'string'){
+      try{ return JSON.parse(raw); }catch(e){ return []; }
+    }
+    if(Array.isArray(raw)) return raw;
+    return [];
   }
   async function saveJoinRequests(list){
     // prune: keep all pending, plus most recent 20 resolved ones
@@ -651,12 +563,17 @@ Index · HTML
   }
   async function getInviteCodes(){
     const raw = await storageGet('invite-codes', true);
-    return raw ? JSON.parse(raw) : [];
+    if(!raw) return [];
+    if(typeof raw === 'string'){
+      try{ return JSON.parse(raw); }catch(e){ return []; }
+    }
+    if(Array.isArray(raw)) return raw;
+    return [];
   }
   async function saveInviteCodes(list){
     await storageSet('invite-codes', JSON.stringify(list), true);
   }
- 
+
   function fmtTime(ts){
     if(!ts) return '';
     const d = new Date(ts);
@@ -667,14 +584,14 @@ Index · HTML
     if(sameDay) return `오늘 ${hh}:${mm}`;
     return `${d.getMonth()+1}/${d.getDate()} ${hh}:${mm}`;
   }
- 
+
   // ---------- gate panel switching ----------
   function showPanel(name){
     ['setup','request','waiting','denied','invite','admin-login'].forEach(p=>{
       $('panel-' + p).classList.toggle('hidden', p !== name);
     });
   }
- 
+
   async function initGate(){
     const existing = await storageGet('site-passcode', true);
     if(!existing){
@@ -683,7 +600,7 @@ Index · HTML
       showPanel('invite');
     }
   }
- 
+
   // ---------- setup (first admin) ----------
   async function handleSetup(){
     const pw = $('setup-pw').value.trim();
@@ -697,7 +614,7 @@ Index · HTML
     showToast('관리자로 설정됐어요. 이제 새로운 사람의 입장 요청을 승인할 수 있어요.');
     await enterApp();
   }
- 
+
   // ---------- join request flow ----------
   async function handleSendRequest(){
     const name = $('req-name').value.trim() || '친구';
@@ -712,7 +629,7 @@ Index · HTML
     showPanel('waiting');
     startPolling();
   }
- 
+
   function startPolling(){
     stopPolling();
     pollTimer = setInterval(async ()=>{
@@ -733,7 +650,7 @@ Index · HTML
   function stopPolling(){
     if(pollTimer){ clearInterval(pollTimer); pollTimer = null; }
   }
- 
+
   async function handleCancelRequest(){
     stopPolling();
     const list = await getJoinRequests();
@@ -742,7 +659,7 @@ Index · HTML
     currentRequestId = null;
     showPanel('request');
   }
- 
+
   // ---------- invite code flow ----------
   async function handleInviteSubmit(){
     const code = $('invite-code-input').value.trim().toUpperCase();
@@ -758,7 +675,7 @@ Index · HTML
     showToast('환영해요! 초대 코드로 입장했어요.');
     await enterApp();
   }
- 
+
   // ---------- admin login ----------
   async function handleAdminLogin(){
     const pw = $('admin-pw-input').value.trim();
@@ -784,7 +701,7 @@ Index · HTML
       $('admin-login-error').textContent = '네트워크 오류: ' + (e && e.message ? e.message : '연결 실패') + '. 인터넷 연결을 확인해주세요.';
     }
   }
- 
+
   // ---------- enter app ----------
   async function enterApp(){
     $('gate-screen').classList.add('hidden');
@@ -797,13 +714,13 @@ Index · HTML
       adminBadgeTimer = setInterval(refreshAdminBadge, 8000);
     }
   }
- 
+
   async function refreshAdminBadge(){
     const list = await getJoinRequests();
     const pendingCount = list.filter(r => r.status === 'pending').length;
     $('req-badge').classList.toggle('hidden', pendingCount === 0);
   }
- 
+
   // ---------- index / grid ----------
   async function loadIndexAndRender(){
     const raw = await storageGet('recipe-index', true);
@@ -811,14 +728,14 @@ Index · HTML
     recipeIndex.sort((a,b)=> (b.createdAt||0) - (a.createdAt||0));
     renderGrid();
   }
- 
+
   function timeTabClass(mins){
     if(!mins) return 'tab-mid';
     if(mins <= 15) return 'tab-fast';
     if(mins <= 40) return 'tab-mid';
     return 'tab-long';
   }
- 
+
   function renderGrid(){
     const q = ($('search-input').value || '').trim().toLowerCase();
     const list = q ? recipeIndex.filter(r => r.title.toLowerCase().includes(q)) : recipeIndex;
@@ -847,14 +764,14 @@ Index · HTML
       el.addEventListener('click', ()=> openDetail(el.dataset.id));
     });
   }
- 
+
   function escapeHtml(s){
     const d = document.createElement('div');
     d.textContent = s || '';
     return d.innerHTML;
   }
   function escapeAttr(s){ return (s||'').replace(/"/g,'&quot;'); }
- 
+
   // ---------- detail ----------
   async function openDetail(id){
     const raw = await storageGet('recipe:' + id, true);
@@ -866,7 +783,7 @@ Index · HTML
     const stepsHtml = (r.steps||[]).map((s,i) => `
       <li class="step-item"><div class="step-num">${i+1}</div><div class="step-text">${escapeHtml(s)}</div></li>
     `).join('') || '<li style="color:var(--ink-soft)">등록된 단계가 없어요</li>';
- 
+
     $('detail-body').innerHTML = `
       <div class="detail-photo-wrap">
         ${r.photo ? `<img class="detail-photo" src="${r.photo}">` : `<div class="detail-photo" style="display:flex;align-items:center;justify-content:center;color:var(--ink-soft);">사진 없음</div>`}
@@ -892,7 +809,7 @@ Index · HTML
   }
   function isUrl(s){ return /^https?:\/\//i.test(s); }
   function closeDetail(){ $('detail-overlay').classList.add('hidden'); }
- 
+
   async function deleteRecipe(id){
     if(!confirm('이 레시피를 정말 삭제할까요?')) return;
     await storageDelete('recipe:' + id, true);
@@ -902,7 +819,7 @@ Index · HTML
     renderGrid();
     showToast('삭제했어요.');
   }
- 
+
   // ---------- recipe form ----------
   function openForm(existing){
     editingId = existing ? existing.id : null;
@@ -913,7 +830,7 @@ Index · HTML
     photoFullData = existing ? (existing.photo || null) : null;
     photoThumbData = null;
     renderPhotoPreview();
- 
+
     $('ingredients-rows').innerHTML = '';
     ingredientCount = 0;
     if(existing && existing.ingredients && existing.ingredients.length){
@@ -921,7 +838,7 @@ Index · HTML
     }else{
       addIngredientRow('', '');
     }
- 
+
     $('steps-rows').innerHTML = '';
     stepCount = 0;
     if(existing && existing.steps && existing.steps.length){
@@ -929,11 +846,11 @@ Index · HTML
     }else{
       addStepRow('');
     }
- 
+
     $('form-overlay').classList.remove('hidden');
   }
   function closeForm(){ $('form-overlay').classList.add('hidden'); }
- 
+
   function renderPhotoPreview(){
     const wrap = $('photo-preview-wrap');
     if(photoFullData){
@@ -942,7 +859,7 @@ Index · HTML
       wrap.innerHTML = `<span class="ph-label">📷 탭해서 사진 찍기 / 선택하기</span>`;
     }
   }
- 
+
   function addIngredientRow(name, amount){
     ingredientCount++;
     const div = document.createElement('div');
@@ -955,7 +872,7 @@ Index · HTML
     div.querySelector('.row-x').addEventListener('click', ()=> div.remove());
     $('ingredients-rows').appendChild(div);
   }
- 
+
   function addStepRow(text){
     stepCount++;
     const div = document.createElement('div');
@@ -967,7 +884,7 @@ Index · HTML
     div.querySelector('.row-x').addEventListener('click', ()=> div.remove());
     $('steps-rows').appendChild(div);
   }
- 
+
   function compressImage(file, maxWidth, quality){
     return new Promise((resolve, reject)=>{
       const reader = new FileReader();
@@ -990,7 +907,7 @@ Index · HTML
       reader.readAsDataURL(file);
     });
   }
- 
+
   async function handlePhotoInput(e){
     const file = e.target.files[0];
     if(!file) return;
@@ -1003,50 +920,50 @@ Index · HTML
       showToast('사진을 불러오지 못했어요.');
     }
   }
- 
+
   async function saveRecipe(){
     const title = $('f-title').value.trim();
     if(!title){ showToast('요리 이름을 입력해주세요.'); return; }
     const cookTime = parseInt($('f-time').value, 10) || null;
     const source = $('f-source').value.trim();
- 
+
     const ingredients = [...document.querySelectorAll('#ingredients-rows .row2')].map(row=>({
       name: row.querySelector('.ing-name').value.trim(),
       amount: row.querySelector('.ing-amt').value.trim()
     })).filter(i => i.name);
- 
+
     const steps = [...document.querySelectorAll('#steps-rows .row-step')].map(row=>
       row.querySelector('.step-text-input').value.trim()
     ).filter(s => s);
- 
+
     const id = editingId || ('r_' + Date.now() + '_' + Math.random().toString(36).slice(2,7));
     const createdAt = editingId
       ? (recipeIndex.find(r=>r.id===id) || {}).createdAt || Date.now()
       : Date.now();
- 
+
     let finalPhoto = photoFullData;
     let finalThumb = photoThumbData;
     if(editingId && !photoThumbData){
       const existingEntry = recipeIndex.find(r => r.id === id);
       finalThumb = existingEntry ? existingEntry.thumb : null;
     }
- 
+
     const fullRecipe = { id, title, cookTime, source, photo: finalPhoto, ingredients, steps, createdAt };
- 
+
     const saveOk = await storageSet('recipe:' + id, JSON.stringify(fullRecipe), true);
     if(!saveOk){ showToast('저장에 실패했어요. 다시 시도해주세요.'); return; }
- 
+
     const indexEntry = { id, title, cookTime, thumb: finalThumb, source, createdAt };
     const existingIdx = recipeIndex.findIndex(r => r.id === id);
     if(existingIdx >= 0) recipeIndex[existingIdx] = indexEntry;
     else recipeIndex.push(indexEntry);
     await storageSet('recipe-index', JSON.stringify(recipeIndex), true);
- 
+
     closeForm();
     renderGrid();
     showToast(editingId ? '수정했어요!' : '레시피를 추가했어요!');
   }
- 
+
   // ---------- admin: change password ----------
   async function changePasscode(){
     const cur = prompt('현재 관리자 비밀번호를 입력해주세요.');
@@ -1058,19 +975,24 @@ Index · HTML
     await storageSet('site-passcode', next, true);
     showToast('비밀번호를 변경했어요.');
   }
- 
+
   // ---------- admin: request/invite panel ----------
   async function openAdminPanel(){
-    await refreshAdminPanel();
     $('admin-overlay').classList.remove('hidden');
+    try{
+      await refreshAdminPanel();
+    }catch(e){
+      $('pending-list').innerHTML = '<div class="empty-mini" style="color:var(--olive-dark);">오류가 발생했어요: ' + escapeHtml(e && e.message ? e.message : String(e)) + '</div>';
+      showToast('패널을 불러오는 중 오류가 발생했어요.');
+    }
   }
   function closeAdminPanel(){ $('admin-overlay').classList.add('hidden'); }
- 
+
   async function refreshAdminPanel(){
     const list = await getJoinRequests();
     const pending = list.filter(r => r.status === 'pending').sort((a,b)=>b.requestedAt - a.requestedAt);
     const recent = list.filter(r => r.status !== 'pending').sort((a,b)=>(b.respondedAt||0)-(a.respondedAt||0)).slice(0,5);
- 
+
     $('pending-list').innerHTML = pending.length ? pending.map(r => `
       <div class="req-item" data-id="${r.id}">
         <div>
@@ -1083,7 +1005,7 @@ Index · HTML
         </div>
       </div>
     `).join('') : '<div class="empty-mini">대기 중인 요청이 없어요.</div>';
- 
+
     $('recent-list').innerHTML = recent.length ? recent.map(r => `
       <div class="req-item">
         <div>
@@ -1093,11 +1015,11 @@ Index · HTML
         <span class="status-pill ${r.status}">${r.status === 'approved' ? '승인됨' : '거절됨'}</span>
       </div>
     `).join('') : '<div class="empty-mini">처리 내역이 없어요.</div>';
- 
+
     $('pending-list').querySelectorAll('.mini-btn').forEach(btn=>{
       btn.addEventListener('click', ()=> respondToRequest(btn.dataset.id, btn.dataset.action));
     });
- 
+
     const codes = await getInviteCodes();
     const active = codes.filter(c => !c.used).sort((a,b)=>b.createdAt-a.createdAt);
     $('invite-list').innerHTML = active.length ? active.map(c => `
@@ -1112,17 +1034,17 @@ Index · HTML
         </div>
       </div>
     `).join('') : '<div class="empty-mini">아직 만든 초대 코드가 없어요.</div>';
- 
+
     $('invite-list').querySelectorAll('[data-copy]').forEach(btn=>{
       btn.addEventListener('click', ()=> copyCode(btn.dataset.copy));
     });
     $('invite-list').querySelectorAll('[data-delete]').forEach(btn=>{
       btn.addEventListener('click', ()=> deleteInviteCode(btn.dataset.delete));
     });
- 
+
     refreshAdminBadge();
   }
- 
+
   async function respondToRequest(id, status){
     const list = await getJoinRequests();
     const entry = list.find(r => r.id === id);
@@ -1134,14 +1056,14 @@ Index · HTML
     await refreshAdminPanel();
     showToast(status === 'approved' ? '입장을 승인했어요.' : '요청을 거절했어요.');
   }
- 
+
   function genCodeString(len){
     const chars = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
     let out = '';
     for(let i=0;i<len;i++) out += chars[Math.floor(Math.random()*chars.length)];
     return out;
   }
- 
+
   async function generateInviteCode(){
     const label = $('invite-label-input').value.trim();
     const code = genCodeString(6);
@@ -1152,14 +1074,14 @@ Index · HTML
     await refreshAdminPanel();
     showToast(`코드 ${code} 를 만들었어요. 친구에게 전달해주세요!`);
   }
- 
+
   async function deleteInviteCode(code){
     const list = await getInviteCodes();
     const filtered = list.filter(c => c.code !== code);
     await saveInviteCodes(filtered);
     await refreshAdminPanel();
   }
- 
+
   function copyCode(code){
     try{
       navigator.clipboard.writeText(code);
@@ -1168,31 +1090,31 @@ Index · HTML
       showToast(`코드: ${code}`);
     }
   }
- 
+
   // ---------- wire up ----------
   document.addEventListener('DOMContentLoaded', ()=>{
     initGate();
- 
+
     $('setup-btn').addEventListener('click', handleSetup);
     $('setup-pw-confirm').addEventListener('keydown', e=>{ if(e.key==='Enter') handleSetup(); });
- 
+
     $('req-send-btn').addEventListener('click', handleSendRequest);
     $('req-name').addEventListener('keydown', e=>{ if(e.key==='Enter') handleSendRequest(); });
     $('link-to-invite').addEventListener('click', ()=> showPanel('invite'));
     $('link-to-admin').addEventListener('click', ()=> showPanel('admin-login'));
- 
+
     $('waiting-cancel-btn').addEventListener('click', handleCancelRequest);
     $('denied-retry-btn').addEventListener('click', ()=> showPanel('request'));
- 
+
     $('invite-submit-btn').addEventListener('click', handleInviteSubmit);
     $('invite-code-input').addEventListener('keydown', e=>{ if(e.key==='Enter') handleInviteSubmit(); });
     $('link-back-from-invite').addEventListener('click', ()=> showPanel('request'));
     $('link-to-admin-from-invite').addEventListener('click', ()=> showPanel('admin-login'));
- 
+
     $('admin-login-btn').addEventListener('click', handleAdminLogin);
     $('admin-pw-input').addEventListener('keydown', e=>{ if(e.key==='Enter') handleAdminLogin(); });
     $('link-back-from-admin').addEventListener('click', ()=> showPanel('request'));
- 
+
     $('fab-add').addEventListener('click', ()=> openForm(null));
     $('form-close').addEventListener('click', closeForm);
     $('form-cancel').addEventListener('click', closeForm);
@@ -1200,13 +1122,13 @@ Index · HTML
     $('detail-close').addEventListener('click', closeDetail);
     $('detail-overlay').addEventListener('click', (e)=>{ if(e.target.id==='detail-overlay') closeDetail(); });
     $('form-overlay').addEventListener('click', (e)=>{ if(e.target.id==='form-overlay') closeForm(); });
- 
+
     $('photo-input').addEventListener('change', handlePhotoInput);
     $('add-ingredient').addEventListener('click', ()=> addIngredientRow('', ''));
     $('add-step').addEventListener('click', ()=> addStepRow(''));
     $('search-input').addEventListener('input', renderGrid);
     $('settings-btn').addEventListener('click', changePasscode);
- 
+
     $('admin-panel-btn').addEventListener('click', openAdminPanel);
     $('admin-close').addEventListener('click', closeAdminPanel);
     $('admin-overlay').addEventListener('click', (e)=>{ if(e.target.id==='admin-overlay') closeAdminPanel(); });
@@ -1216,4 +1138,3 @@ Index · HTML
 </script>
 </body>
 </html>
- 
