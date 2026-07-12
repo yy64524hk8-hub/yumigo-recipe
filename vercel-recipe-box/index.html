@@ -496,6 +496,14 @@
 (function(){
   "use strict";
 
+  window.onerror = function(msg, url, line, col, err){
+    alert('스크립트 오류가 발생했어요:\n' + msg + '\n(줄 ' + line + ', 칸 ' + col + ')');
+    return false;
+  };
+  window.addEventListener('unhandledrejection', function(ev){
+    alert('처리되지 않은 오류(Promise):\n' + (ev.reason && ev.reason.message ? ev.reason.message : ev.reason));
+  });
+
   // ---------- state ----------
   let unlocked = false;
   let isAdmin = false;
@@ -1093,47 +1101,60 @@
   }
 
   // ---------- wire up ----------
+  function on(id, event, handler){
+    const el = document.getElementById(id);
+    if(!el){ console.warn('요소를 찾을 수 없어요:', id); return; }
+    el.addEventListener(event, handler);
+  }
+
   document.addEventListener('DOMContentLoaded', ()=>{
-    initGate();
+    // bind the admin panel button FIRST and defensively, so it can never be
+    // skipped by an error elsewhere in this block
+    on('admin-panel-btn', 'click', openAdminPanel);
 
-    $('setup-btn').addEventListener('click', handleSetup);
-    $('setup-pw-confirm').addEventListener('keydown', e=>{ if(e.key==='Enter') handleSetup(); });
+    try{
+      initGate();
 
-    $('req-send-btn').addEventListener('click', handleSendRequest);
-    $('req-name').addEventListener('keydown', e=>{ if(e.key==='Enter') handleSendRequest(); });
-    $('link-to-invite').addEventListener('click', ()=> showPanel('invite'));
-    $('link-to-admin').addEventListener('click', ()=> showPanel('admin-login'));
+      on('setup-btn', 'click', handleSetup);
+      on('setup-pw-confirm', 'keydown', e=>{ if(e.key==='Enter') handleSetup(); });
 
-    $('waiting-cancel-btn').addEventListener('click', handleCancelRequest);
-    $('denied-retry-btn').addEventListener('click', ()=> showPanel('request'));
+      on('req-send-btn', 'click', handleSendRequest);
+      on('req-name', 'keydown', e=>{ if(e.key==='Enter') handleSendRequest(); });
+      on('link-to-invite', 'click', ()=> showPanel('invite'));
+      on('link-to-admin', 'click', ()=> showPanel('admin-login'));
 
-    $('invite-submit-btn').addEventListener('click', handleInviteSubmit);
-    $('invite-code-input').addEventListener('keydown', e=>{ if(e.key==='Enter') handleInviteSubmit(); });
-    $('link-back-from-invite').addEventListener('click', ()=> showPanel('request'));
-    $('link-to-admin-from-invite').addEventListener('click', ()=> showPanel('admin-login'));
+      on('waiting-cancel-btn', 'click', handleCancelRequest);
+      on('denied-retry-btn', 'click', ()=> showPanel('request'));
 
-    $('admin-login-btn').addEventListener('click', handleAdminLogin);
-    $('admin-pw-input').addEventListener('keydown', e=>{ if(e.key==='Enter') handleAdminLogin(); });
-    $('link-back-from-admin').addEventListener('click', ()=> showPanel('request'));
+      on('invite-submit-btn', 'click', handleInviteSubmit);
+      on('invite-code-input', 'keydown', e=>{ if(e.key==='Enter') handleInviteSubmit(); });
+      on('link-back-from-invite', 'click', ()=> showPanel('request'));
+      on('link-to-admin-from-invite', 'click', ()=> showPanel('admin-login'));
 
-    $('fab-add').addEventListener('click', ()=> openForm(null));
-    $('form-close').addEventListener('click', closeForm);
-    $('form-cancel').addEventListener('click', closeForm);
-    $('form-save').addEventListener('click', saveRecipe);
-    $('detail-close').addEventListener('click', closeDetail);
-    $('detail-overlay').addEventListener('click', (e)=>{ if(e.target.id==='detail-overlay') closeDetail(); });
-    $('form-overlay').addEventListener('click', (e)=>{ if(e.target.id==='form-overlay') closeForm(); });
+      on('admin-login-btn', 'click', handleAdminLogin);
+      on('admin-pw-input', 'keydown', e=>{ if(e.key==='Enter') handleAdminLogin(); });
+      on('link-back-from-admin', 'click', ()=> showPanel('request'));
 
-    $('photo-input').addEventListener('change', handlePhotoInput);
-    $('add-ingredient').addEventListener('click', ()=> addIngredientRow('', ''));
-    $('add-step').addEventListener('click', ()=> addStepRow(''));
-    $('search-input').addEventListener('input', renderGrid);
-    $('settings-btn').addEventListener('click', changePasscode);
+      on('fab-add', 'click', ()=> openForm(null));
+      on('form-close', 'click', closeForm);
+      on('form-cancel', 'click', closeForm);
+      on('form-save', 'click', saveRecipe);
+      on('detail-close', 'click', closeDetail);
+      on('detail-overlay', 'click', (e)=>{ if(e.target.id==='detail-overlay') closeDetail(); });
+      on('form-overlay', 'click', (e)=>{ if(e.target.id==='form-overlay') closeForm(); });
 
-    $('admin-panel-btn').addEventListener('click', openAdminPanel);
-    $('admin-close').addEventListener('click', closeAdminPanel);
-    $('admin-overlay').addEventListener('click', (e)=>{ if(e.target.id==='admin-overlay') closeAdminPanel(); });
-    $('gen-invite-btn').addEventListener('click', generateInviteCode);
+      on('photo-input', 'change', handlePhotoInput);
+      on('add-ingredient', 'click', ()=> addIngredientRow('', ''));
+      on('add-step', 'click', ()=> addStepRow(''));
+      on('search-input', 'input', renderGrid);
+      on('settings-btn', 'click', changePasscode);
+
+      on('admin-close', 'click', closeAdminPanel);
+      on('admin-overlay', 'click', (e)=>{ if(e.target.id==='admin-overlay') closeAdminPanel(); });
+      on('gen-invite-btn', 'click', generateInviteCode);
+    }catch(e){
+      alert('초기화 중 오류가 발생했어요: ' + (e && e.message ? e.message : e));
+    }
   });
 })();
 </script>
