@@ -978,6 +978,7 @@
 
   // ---------- admin: request/invite panel ----------
   async function openAdminPanel(){
+    alert('벨 버튼 클릭이 인식됐어요! 확인을 누르면 패널이 열려요.');
     $('admin-overlay').classList.remove('hidden');
     try{
       await refreshAdminPanel();
