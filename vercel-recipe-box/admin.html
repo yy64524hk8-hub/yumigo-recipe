@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>Yumi G's 레시피 — 관리자</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+</head>
+<body>
+
+<div id="toast" class="toast"></div>
+
+<!-- GATE -->
+<div id="gate-screen">
+  <div class="gate-card">
+    <div class="gate-tab">RECIPE BOX ADMIN</div>
+
+    <div id="panel-setup">
+      <h1>관리자 처음 설정하기</h1>
+      <p>처음 오셨네요! 관리자 비밀번호를 정해주세요.</p>
+      <input id="setup-pw" class="gate-input" type="password" placeholder="관리자 비밀번호">
+      <input id="setup-pw-confirm" class="gate-input" type="password" placeholder="비밀번호 확인">
+      <button class="gate-btn" id="setup-btn">관리자로 시작하기</button>
+      <div class="gate-error" id="setup-error"></div>
+    </div>
+
+    <div id="panel-admin-login" class="hidden">
+      <h1>관리자 로그인</h1>
+      <p>관리자 비밀번호를 입력해주세요.</p>
+      <input id="admin-pw-input" class="gate-input" type="password" placeholder="관리자 비밀번호">
+      <button class="gate-btn" id="admin-login-btn">로그인</button>
+      <div class="gate-error" id="admin-login-error"></div>
+    </div>
+    <div id="gate-conn-error" class="gate-error hidden" style="margin-top:16px;">저장소 연결에 실패했어요. 새로고침 해보세요.</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div id="main-screen" class="hidden">
+  <div class="topbar">
+    <div>
+      <span class="eyebrow">ADMIN</span>
+      <h1>Yumi G's 레시피</h1>
+    </div>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="settings-btn" title="비밀번호 변경">⚙</button>
+    </div>
+  </div>
+  <div id="conn-banner" class="conn-banner">저장소 연결에 실패했어요. 새로고침 해보세요.</div>
+  <div class="search-row">
+    <input id="search-input" type="text" placeholder="레시피 이름으로 찾기...">
+  </div>
+  <div id="grid" class="grid"></div>
+  <div id="empty-state" class="empty-state hidden">
+    <span class="serif">아직 레시피가 없어요</span>
+    <p>오른쪽 아래 + 버튼을 눌러 첫 성공 레시피를 기록해보세요.</p>
+  </div>
+  <button class="fab" id="fab-add" title="레시피 추가">+</button>
+</div>
+
+<!-- DETAIL OVERLAY -->
+<div id="detail-overlay" class="overlay hidden">
+  <div class="sheet">
+    <div class="sheet-header">
+      <h2>레시피</h2>
+      <button class="close-x" id="detail-close">✕</button>
+    </div>
+    <div class="sheet-body" id="detail-body"></div>
+  </div>
+</div>
+
+<!-- FORM OVERLAY -->
+<div id="form-overlay" class="overlay hidden">
+  <div class="sheet">
+    <div class="sheet-header">
+      <h2 id="form-title">레시피 추가</h2>
+      <button class="close-x" id="form-close">✕</button>
+    </div>
+    <div class="sheet-body">
+      <div class="field">
+        <label>완성 사진</label>
+        <label class="photo-upload" id="photo-upload-label">
+          <div id="photo-preview-wrap">
+            <span class="ph-label">📷 탭해서 사진 찍기 / 선택하기</span>
+          </div>
+          <input type="file" id="photo-input" accept="image/*">
+        </label>
+        <div id="rep-photo-picker"></div>
+      </div>
+      <div class="field">
+        <label>요리 이름</label>
+        <input type="text" id="f-title" placeholder="예: 엄마표 김치찌개">
+      </div>
+      <div class="field">
+        <label>조리 시간 (분)</label>
+        <input type="number" id="f-time" placeholder="예: 30" min="1">
+      </div>
+      <div class="field">
+        <label>재료</label>
+        <div id="ingredients-rows"></div>
+        <button class="add-row-btn" id="add-ingredient">+ 재료 추가</button>
+      </div>
+      <div class="field">
+        <label>만드는 법</label>
+        <div id="steps-rows"></div>
+        <button class="add-row-btn" id="add-step">+ 단계 추가</button>
+      </div>
+      <div class="field">
+        <label>출처</label>
+        <input type="text" id="f-source" placeholder="예: 엄마, 유튜브 채널명, 링크 등">
+      </div>
+      <div class="field">
+        <label>구매처 (선택)</label>
+        <textarea id="f-place" rows="3" placeholder="한 줄에 하나씩 입력하세요&#10;예: 두부 - https://market.com/tofu&#10;고추장 - https://market.com/gochujang"></textarea>
+      </div>
+      <div class="field">
+        <label>Tips (선택)</label>
+        <textarea id="f-tips" rows="3" placeholder="예: 소금 대신 국간장을 써도 좋아요"></textarea>
+      </div>
+    </div>
+    <div class="form-footer">
+      <button class="btn" id="form-cancel">취소</button>
+      <button class="btn primary" id="form-save">저장</button>
+    </div>
+  </div>
+</div>
+
+<script src="shared.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  let recipeIndex = [];
+  let editingId = null;
+  let photoFullData = null;
+  let photoThumbData = null;
+  let ingredientCount = 0;
+  let stepCount = 0;
+
+  // ---------- gate ----------
+  function showPanel(name){
+    ['setup','admin-login'].forEach(p=>{
+      $('panel-' + p).classList.toggle('hidden', p !== name);
+    });
+  }
+
+  async function initGate(){
+    const existing = await storageGet('site-passcode');
+    if(!existing.ok){
+      $('panel-setup').classList.add('hidden');
+      $('panel-admin-login').classList.add('hidden');
+      $('gate-conn-error').classList.remove('hidden');
+      return;
+    }
+    showPanel(existing.value ? 'admin-login' : 'setup');
+  }
+
+  async function handleSetup(){
+    const pw = $('setup-pw').value.trim();
+    const confirmPw = $('setup-pw-confirm').value.trim();
+    $('setup-error').textContent = '';
+    if(pw.length < 2){ $('setup-error').textContent = '2자 이상으로 정해주세요.'; return; }
+    if(pw !== confirmPw){ $('setup-error').textContent = '비밀번호가 서로 달라요.'; return; }
+    const ok = await storageSet('site-passcode', pw);
+    if(!ok){ $('setup-error').textContent = '저장에 실패했어요. 다시 시도해주세요.'; return; }
+    showToast('관리자로 설정됐어요.');
+    await enterApp();
+  }
+
+  async function handleAdminLogin(){
+    const pw = $('admin-pw-input').value.trim();
+    $('admin-login-error').textContent = '';
+    const stored = await storageGet('site-passcode');
+    if(!stored.ok){ $('admin-login-error').textContent = '저장소 연결에 실패했어요.'; return; }
+    if(pw === stored.value){
+      await enterApp();
+    }else{
+      $('admin-login-error').textContent = '비밀번호가 올바르지 않아요.';
+    }
+  }
+
+  async function enterApp(){
+    $('gate-screen').classList.add('hidden');
+    $('main-screen').classList.remove('hidden');
+    await loadIndexAndRender();
+  }
+
+  // ---------- index / grid ----------
+  async function loadIndexAndRender(){
+    const res = await storageGet('recipe-index');
+    if(!res.ok){ showConnBanner(true); return; }
+    showConnBanner(false);
+    recipeIndex = res.value || [];
+    recipeIndex.sort((a,b)=> (b.createdAt||0) - (a.createdAt||0));
+    renderGrid();
+  }
+
+  function renderGrid(){
+    const q = ($('search-input').value || '').trim().toLowerCase();
+    const list = q ? recipeIndex.filter(r => r.title.toLowerCase().includes(q)) : recipeIndex;
+    const grid = $('grid');
+    if(list.length === 0){
+      grid.innerHTML = '';
+      $('empty-state').classList.toggle('hidden', recipeIndex.length !== 0);
+      if(recipeIndex.length !== 0 && q){
+        grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><span class="serif">검색 결과가 없어요</span></div>';
+      }
+      return;
+    }
+    $('empty-state').classList.add('hidden');
+    grid.innerHTML = buildGridHtml(list);
+    wireGridClicks(grid, openDetail);
+  }
+
+  // ---------- detail ----------
+  async function openDetail(id){
+    const res = await storageGet('recipe:' + id);
+    if(!res.ok || !res.value){ showToast('레시피를 불러올 수 없어요.'); return; }
+    const r = res.value;
+    const commentsRes = await storageGet('comments:' + id);
+    const comments = (commentsRes.ok && commentsRes.value) ? commentsRes.value : [];
+    $('detail-body').innerHTML = renderDetailCore(r) + `
+      <div class="detail-actions">
+        <button class="btn" id="edit-btn">✎ 수정</button>
+        <button class="btn danger" id="delete-btn">🗑 삭제</button>
+      </div>
+      <div class="section-label">댓글</div>
+      <div id="comments-list">${buildCommentsHtml(comments, true)}</div>
+      <div class="comment-form">
+        <input type="text" id="comment-name" placeholder="이름 (선택)">
+        <textarea id="comment-text" rows="2" placeholder="댓글을 남겨주세요"></textarea>
+        <button class="comment-submit-btn" id="comment-submit" type="button">작성</button>
+      </div>
+    `;
+    $('edit-btn').addEventListener('click', ()=>{ closeDetail(); openForm(r); });
+    $('delete-btn').addEventListener('click', ()=> deleteRecipe(r.id));
+    $('comment-submit').addEventListener('click', ()=> submitComment(id));
+    $('comments-list').querySelectorAll('.comment-delete').forEach(btn=>{
+      btn.addEventListener('click', ()=> deleteComment(id, btn.dataset.commentId));
+    });
+    wireCarouselDots();
+    $('detail-overlay').classList.remove('hidden');
+  }
+  function closeDetail(){ $('detail-overlay').classList.add('hidden'); }
+
+  async function submitComment(recipeId){
+    const text = $('comment-text').value.trim();
+    if(!text){ showToast('댓글 내용을 입력해주세요.'); return; }
+    const name = $('comment-name').value.trim();
+    const commentsRes = await storageGet('comments:' + recipeId);
+    const comments = (commentsRes.ok && commentsRes.value) ? commentsRes.value : [];
+    comments.push({ id: 'c_' + Date.now() + '_' + Math.random().toString(36).slice(2,7), name, text, createdAt: Date.now() });
+    const ok = await storageSet('comments:' + recipeId, comments);
+    if(!ok){ showToast('댓글 저장에 실패했어요.'); return; }
+    showToast('댓글을 남겼어요!');
+    openDetail(recipeId);
+  }
+
+  async function deleteComment(recipeId, commentId){
+    if(!confirm('이 댓글을 삭제할까요?')) return;
+    const commentsRes = await storageGet('comments:' + recipeId);
+    const comments = (commentsRes.ok && commentsRes.value) ? commentsRes.value : [];
+    const filtered = comments.filter(c => c.id !== commentId);
+    await storageSet('comments:' + recipeId, filtered);
+    showToast('댓글을 삭제했어요.');
+    openDetail(recipeId);
+  }
+
+  async function deleteRecipe(id){
+    if(!confirm('이 레시피를 정말 삭제할까요?')) return;
+    await storageDelete('recipe:' + id);
+    await storageDelete('comments:' + id);
+    recipeIndex = recipeIndex.filter(r => r.id !== id);
+    await storageSet('recipe-index', recipeIndex);
+    closeDetail();
+    renderGrid();
+    showToast('삭제했어요.');
+  }
+
+  // ---------- recipe form ----------
+  function openForm(existing){
+    editingId = existing ? existing.id : null;
+    $('form-title').textContent = existing ? '레시피 수정' : '레시피 추가';
+    $('f-title').value = existing ? existing.title : '';
+    $('f-time').value = existing ? (existing.cookTime || '') : '';
+    $('f-source').value = existing ? (existing.source || '') : '';
+    $('f-place').value = existing ? (existing.place || '') : '';
+    $('f-tips').value = existing ? (existing.tips || '') : '';
+    photoFullData = existing ? (existing.photo || null) : null;
+    photoThumbData = null;
+    renderPhotoPreview();
+
+    $('ingredients-rows').innerHTML = '';
+    ingredientCount = 0;
+    if(existing && existing.ingredients && existing.ingredients.length){
+      existing.ingredients.forEach(ing => addIngredientRow(ing.name, ing.amount));
+    }else{
+      addIngredientRow('', '');
+    }
+
+    $('steps-rows').innerHTML = '';
+    stepCount = 0;
+    if(existing && existing.steps && existing.steps.length){
+      existing.steps.forEach(s => addStepRow(stepText(s), stepPhoto(s)));
+    }else{
+      addStepRow('', null);
+    }
+
+    refreshRepPhotoPicker();
+    $('form-overlay').classList.remove('hidden');
+  }
+  function closeForm(){ $('form-overlay').classList.add('hidden'); }
+
+  function renderPhotoPreview(){
+    const wrap = $('photo-preview-wrap');
+    if(photoFullData){
+      wrap.innerHTML = `<img src="${photoFullData}">`;
+    }else{
+      wrap.innerHTML = `<span class="ph-label">📷 탭해서 사진 찍기 / 선택하기</span>`;
+    }
+  }
+
+  function refreshRepPhotoPicker(){
+    const wrap = $('rep-photo-picker');
+    if(!wrap) return;
+    const options = [];
+    if(photoFullData) options.push({ label: '완성 사진', src: photoFullData });
+    document.querySelectorAll('#steps-rows .row-step').forEach((row, i)=>{
+      const img = row.querySelector('.step-photo-preview img');
+      if(img) options.push({ label: `${i+1}단계 사진`, src: img.src });
+    });
+    if(options.length <= 1){ wrap.innerHTML = ''; return; }
+    wrap.innerHTML = `
+      <div class="rep-photo-label">대표 사진으로 쓸 사진을 골라주세요</div>
+      <div class="rep-photo-row">
+        ${options.map((o,i) => `
+          <button type="button" class="rep-photo-opt${o.src === photoFullData ? ' selected' : ''}" data-idx="${i}">
+            <img src="${o.src}"><span>${o.label}</span>
+          </button>
+        `).join('')}
+      </div>
+    `;
+    wrap.querySelectorAll('.rep-photo-opt').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const chosen = options[Number(btn.dataset.idx)];
+        photoFullData = chosen.src;
+        photoThumbData = chosen.src;
+        renderPhotoPreview();
+        refreshRepPhotoPicker();
+      });
+    });
+  }
+
+  function addIngredientRow(name, amount){
+    ingredientCount++;
+    const div = document.createElement('div');
+    div.className = 'row2';
+    div.innerHTML = `
+      <input type="text" class="ing-name" placeholder="재료명 (예: 두부)" value="${escapeAttr(name)}">
+      <input type="text" class="ing-amt" placeholder="양 (예: 1모)" value="${escapeAttr(amount)}">
+      <button class="row-x" type="button">✕</button>
+    `;
+    div.querySelector('.row-x').addEventListener('click', ()=> div.remove());
+    $('ingredients-rows').appendChild(div);
+  }
+
+  function addStepRow(text, photo){
+    stepCount++;
+    const div = document.createElement('div');
+    div.className = 'row-step';
+    div.innerHTML = `
+      <div>
+        <textarea class="step-text-input" rows="2" placeholder="단계 설명을 적어주세요">${escapeHtml(text || '')}</textarea>
+        <label class="step-photo-upload">
+          <div class="step-photo-preview">
+            ${photo ? `<img src="${photo}">` : `<span class="ph-label-mini">📷 사진 추가 (선택)</span>`}
+          </div>
+          <input type="file" class="step-photo-input" accept="image/*">
+        </label>
+      </div>
+      <button class="row-x" type="button">✕</button>
+    `;
+    div.querySelector('.row-x').addEventListener('click', ()=>{ div.remove(); refreshRepPhotoPicker(); });
+    div.querySelector('.step-photo-input').addEventListener('change', (e)=> handleStepPhotoInput(e, div));
+    $('steps-rows').appendChild(div);
+  }
+
+  async function handleStepPhotoInput(e, rowDiv){
+    const file = e.target.files[0];
+    if(!file) return;
+    try{
+      showToast('사진을 처리하고 있어요...');
+      const compressed = await compressImage(file, 700, 0.7);
+      rowDiv.querySelector('.step-photo-preview').innerHTML = `<img src="${compressed}">`;
+      refreshRepPhotoPicker();
+    }catch(err){
+      showToast('사진을 불러오지 못했어요.');
+    }
+  }
+
+  async function handlePhotoInput(e){
+    const file = e.target.files[0];
+    if(!file) return;
+    try{
+      showToast('사진을 처리하고 있어요...');
+      photoFullData = await compressImage(file, 900, 0.72);
+      photoThumbData = await compressImage(file, 260, 0.6);
+      renderPhotoPreview();
+      refreshRepPhotoPicker();
+    }catch(err){
+      showToast('사진을 불러오지 못했어요.');
+    }
+  }
+
+  async function saveRecipe(){
+    const title = $('f-title').value.trim();
+    if(!title){ showToast('요리 이름을 입력해주세요.'); return; }
+    const cookTime = parseInt($('f-time').value, 10) || null;
+    const source = $('f-source').value.trim();
+    const place = $('f-place').value.trim();
+    const tips = $('f-tips').value.trim();
+
+    const ingredients = [...document.querySelectorAll('#ingredients-rows .row2')].map(row=>({
+      name: row.querySelector('.ing-name').value.trim(),
+      amount: row.querySelector('.ing-amt').value.trim()
+    })).filter(i => i.name);
+
+    const steps = [...document.querySelectorAll('#steps-rows .row-step')].map(row=>{
+      const text = row.querySelector('.step-text-input').value.trim();
+      const img = row.querySelector('.step-photo-preview img');
+      return { text, photo: img ? img.src : null };
+    }).filter(s => s.text);
+
+    const id = editingId || ('r_' + Date.now() + '_' + Math.random().toString(36).slice(2,7));
+    const createdAt = editingId
+      ? (recipeIndex.find(r=>r.id===id) || {}).createdAt || Date.now()
+      : Date.now();
+
+    let finalPhoto = photoFullData;
+    let finalThumb = photoThumbData;
+    if(editingId && !photoThumbData){
+      const existingEntry = recipeIndex.find(r => r.id === id);
+      finalThumb = existingEntry ? existingEntry.thumb : null;
+    }
+
+    const fullRecipe = { id, title, cookTime, source, place, tips, photo: finalPhoto, ingredients, steps, createdAt };
+
+    const saveOk = await storageSet('recipe:' + id, fullRecipe);
+    if(!saveOk){ showToast('저장에 실패했어요. 다시 시도해주세요.'); return; }
+
+    const indexEntry = { id, title, cookTime, thumb: finalThumb, source, createdAt };
+    const existingIdx = recipeIndex.findIndex(r => r.id === id);
+    if(existingIdx >= 0) recipeIndex[existingIdx] = indexEntry;
+    else recipeIndex.push(indexEntry);
+    await storageSet('recipe-index', recipeIndex);
+
+    closeForm();
+    renderGrid();
+    showToast(editingId ? '수정했어요!' : '레시피를 추가했어요!');
+  }
+
+  // ---------- change password ----------
+  async function changePasscode(){
+    const cur = prompt('현재 관리자 비밀번호를 입력해주세요.');
+    if(cur === null) return;
+    const stored = await storageGet('site-passcode');
+    if(!stored.ok){ showToast('저장소 연결에 실패했어요.'); return; }
+    if(cur !== stored.value){ showToast('현재 비밀번호가 일치하지 않아요.'); return; }
+    const next = prompt('새 비밀번호를 입력해주세요.');
+    if(!next) return;
+    await storageSet('site-passcode', next);
+    showToast('비밀번호를 변경했어요.');
+  }
+
+  // ---------- wire up ----------
+  document.addEventListener('DOMContentLoaded', ()=>{
+    initGate();
+
+    $('setup-btn').addEventListener('click', handleSetup);
+    $('setup-pw-confirm').addEventListener('keydown', e=>{ if(e.key==='Enter') handleSetup(); });
+    $('admin-login-btn').addEventListener('click', handleAdminLogin);
+    $('admin-pw-input').addEventListener('keydown', e=>{ if(e.key==='Enter') handleAdminLogin(); });
+
+    $('fab-add').addEventListener('click', ()=> openForm(null));
+    $('form-close').addEventListener('click', closeForm);
+    $('form-cancel').addEventListener('click', closeForm);
+    $('form-save').addEventListener('click', saveRecipe);
+    $('detail-close').addEventListener('click', closeDetail);
+    $('detail-overlay').addEventListener('click', (e)=>{ if(e.target.id==='detail-overlay') closeDetail(); });
+    $('form-overlay').addEventListener('click', (e)=>{ if(e.target.id==='form-overlay') closeForm(); });
+
+    $('photo-input').addEventListener('change', handlePhotoInput);
+    $('add-ingredient').addEventListener('click', ()=> addIngredientRow('', ''));
+    $('add-step').addEventListener('click', ()=> addStepRow('', null));
+    $('search-input').addEventListener('input', renderGrid);
+    $('settings-btn').addEventListener('click', changePasscode);
+  });
+})();
+</script>
+</body>
+</html>

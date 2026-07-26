@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>Yumi G's 레시피</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+</head>
+<body>
+
+<div id="toast" class="toast"></div>
+
+<div id="main-screen">
+  <div class="topbar">
+    <div>
+      <span class="eyebrow">TESTED &amp; APPROVED</span>
+      <h1>Yumi G's 레시피</h1>
+    </div>
+  </div>
+  <div id="conn-banner" class="conn-banner">저장소 연결에 실패했어요. 새로고침 해보세요.</div>
+  <div class="search-row">
+    <input id="search-input" type="text" placeholder="레시피 이름으로 찾기...">
+  </div>
+  <div id="grid" class="grid"></div>
+  <div id="empty-state" class="empty-state hidden">
+    <span class="serif">아직 레시피가 없어요</span>
+  </div>
+</div>
+
+<div id="detail-overlay" class="overlay hidden">
+  <div class="sheet">
+    <div class="sheet-header">
+      <h2>레시피</h2>
+      <button class="close-x" id="detail-close">✕</button>
+    </div>
+    <div class="sheet-body" id="detail-body"></div>
+  </div>
+</div>
+
+<script src="shared.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  let recipeIndex = [];
+
+  async function loadIndexAndRender(){
+    const res = await storageGet('recipe-index');
+    if(!res.ok){
+      showConnBanner(true);
+      return;
+    }
+    showConnBanner(false);
+    recipeIndex = res.value || [];
+    recipeIndex.sort((a,b)=> (b.createdAt||0) - (a.createdAt||0));
+    renderGrid();
+  }
+
+  function renderGrid(){
+    const q = ($('search-input').value || '').trim().toLowerCase();
+    const list = q ? recipeIndex.filter(r => r.title.toLowerCase().includes(q)) : recipeIndex;
+    const grid = $('grid');
+    if(list.length === 0){
+      grid.innerHTML = '';
+      $('empty-state').classList.toggle('hidden', recipeIndex.length !== 0);
+      if(recipeIndex.length !== 0 && q){
+        grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><span class="serif">검색 결과가 없어요</span></div>';
+      }
+      return;
+    }
+    $('empty-state').classList.add('hidden');
+    grid.innerHTML = buildGridHtml(list);
+    wireGridClicks(grid, openDetail);
+  }
+
+  async function openDetail(id){
+    const res = await storageGet('recipe:' + id);
+    if(!res.ok || !res.value){ showToast('레시피를 불러올 수 없어요.'); return; }
+    const r = res.value;
+    const commentsRes = await storageGet('comments:' + id);
+    const comments = (commentsRes.ok && commentsRes.value) ? commentsRes.value : [];
+    $('detail-body').innerHTML = renderDetailCore(r) + `
+      <div class="section-label">댓글</div>
+      <div id="comments-list">${buildCommentsHtml(comments, false)}</div>
+      <div class="comment-form">
+        <input type="text" id="comment-name" placeholder="이름 (선택)">
+        <textarea id="comment-text" rows="2" placeholder="댓글을 남겨주세요"></textarea>
+        <button class="comment-submit-btn" id="comment-submit" type="button">작성</button>
+      </div>
+    `;
+    $('comment-submit').addEventListener('click', ()=> submitComment(id));
+    wireCarouselDots();
+    $('detail-overlay').classList.remove('hidden');
+  }
+  function closeDetail(){ $('detail-overlay').classList.add('hidden'); }
+
+  async function submitComment(recipeId){
+    const text = $('comment-text').value.trim();
+    if(!text){ showToast('댓글 내용을 입력해주세요.'); return; }
+    const name = $('comment-name').value.trim();
+    const commentsRes = await storageGet('comments:' + recipeId);
+    const comments = (commentsRes.ok && commentsRes.value) ? commentsRes.value : [];
+    comments.push({ id: 'c_' + Date.now() + '_' + Math.random().toString(36).slice(2,7), name, text, createdAt: Date.now() });
+    const ok = await storageSet('comments:' + recipeId, comments);
+    if(!ok){ showToast('댓글 저장에 실패했어요.'); return; }
+    showToast('댓글을 남겼어요!');
+    openDetail(recipeId);
+  }
+
+  document.addEventListener('DOMContentLoaded', ()=>{
+    loadIndexAndRender();
+    $('search-input').addEventListener('input', renderGrid);
+    $('detail-close').addEventListener('click', closeDetail);
+    $('detail-overlay').addEventListener('click', (e)=>{ if(e.target.id==='detail-overlay') closeDetail(); });
+  });
+})();
+</script>
+</body>
+</html>
